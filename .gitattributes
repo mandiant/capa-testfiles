@@ -1,0 +1,9 @@
+*.dll_ filter=lfs diff=lfs merge=lfs -text
+*.exe_ filter=lfs diff=lfs merge=lfs -text
+*.raw32 filter=lfs diff=lfs merge=lfs -text
+*.raw64 filter=lfs diff=lfs merge=lfs -text
+*.viv filter=lfs diff=lfs merge=lfs -text
+*.frz filter=lfs diff=lfs merge=lfs -text
+*.fnames filter=lfs diff=lfs merge=lfs -text
+*.mal_ filter=lfs diff=lfs merge=lfs -text
+*.sys_ filter=lfs diff=lfs merge=lfs -text
