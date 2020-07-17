@@ -12,6 +12,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: fireeye/capa
+        token: ${{ secrets.CAPA_TOKEN }}
     - name: Checkout capa-testfiles
       uses: actions/checkout@v2
       with:
