@@ -1,0 +1,28 @@
+name: Sync tests/data submodule in capa
+on:
+  push:
+    branches: [ master ]
+jobs:
+  sync_submodule_capa:
+    runs-on: ubuntu-latest
+    steps:
+    # Do not checkout submodules as we don't need capa-rules and we need to
+    # update the tests/data submodule reference
+    - name: Checkout capa
+      uses: actions/checkout@v2
+      with:
+        repository: fireeye/capa
+    - name: Checkout capa-testfiles
+      uses: actions/checkout@v2
+      with:
+        path: tests/data
+    - name: Commit changes
+      run: |
+        git config user.email 'capa-dev@fireeye.com'
+        git config user.name 'Capa Bot'
+        git commit -am 'Sync capa-testfiles submodule'
+    - name: Push changes to capa
+      uses: ad-m/github-push-action@master
+      with:
+        repository: fireeye/capa
+        github_token: ${{ secrets.CAPA_TOKEN }}
