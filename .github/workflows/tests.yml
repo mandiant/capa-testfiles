@@ -18,3 +18,48 @@ jobs:
         python-version: 3.8
     - name: Test repository files
       run: python .github/check_sample_filenames.py .
+  test_runtime:
+    runs-on: ubuntu-latest
+    steps:
+    # We check the submodules separately as the rules submodule's reference may not be our PR/master
+    - name: Checkout capa without submodules
+      uses: actions/checkout@v2
+      with:
+        repository: fireeye/capa
+    - name: Checkout capa-rules
+      uses: actions/checkout@v2
+      with:
+        repository: fireeye/capa-rules
+        path: rules
+    - name: Checkout capa-testfiles
+      uses: actions/checkout@v2
+      with:
+        path: tests/data
+    - name: Set up Python 2.7
+      uses: actions/setup-python@v2
+      with:
+        python-version: 2.7
+    - name: Install capa
+      run: pip install -e .
+    - name: Get modified files
+      id: files
+      uses: jitterbit/get-changed-files@v1
+    - name: Check capa runtime on modified files
+      run: |
+        THRESHOLD=180
+        exitcode=0
+        cd tests/data
+        for changed_file in ${{ steps.files.outputs.added_modified }}; do
+          if [[ ! $changed_file =~ ".git" ]]; then
+            time0=$SECONDS
+            capa -q $changed_file
+            diff=$(($SECONDS-time0))
+            if [[ $diff -gt $THRESHOLD ]]; then
+              echo "capa ran for $diff seconds, please provide a different sample so we can test more quickly"
+              exitcode=1
+            else
+              echo "all good, capa ran for $diff seconds"
+            fi
+          fi
+        done
+        exit $exitcode
