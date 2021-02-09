@@ -7,6 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
+  # file name consistency
   test_filenames:
     runs-on: ubuntu-latest
     steps:
@@ -18,6 +19,7 @@ jobs:
         python-version: 3.8
     - name: Test repository files
       run: python .github/check_sample_filenames.py .
+  # to allow quicker tests, capa should run less than THRESHOLD seconds on added/modified test files
   test_runtime:
     runs-on: ubuntu-latest
     steps:
