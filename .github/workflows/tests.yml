@@ -54,7 +54,7 @@ jobs:
         for changed_file in ${{ steps.files.outputs.added_modified }}; do
           if [[ ! $changed_file =~ ".git" ]]; then
             time0=$SECONDS
-            capa -q $changed_file
+            capa -q -v $changed_file
             diff=$(($SECONDS-time0))
             if [[ $diff -gt $THRESHOLD ]]; then
               echo "capa ran for $diff seconds, please provide a different sample so we can test more quickly"
