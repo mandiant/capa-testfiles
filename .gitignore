@@ -1,3 +1,5 @@
 *.viv
 *.idb
 *.i64
+*.json
+*.txt

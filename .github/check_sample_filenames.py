@@ -43,7 +43,7 @@ def main(argv=None):
 def test_data_filenames(args):
     test_failed = False
     for root, dirs, files in os.walk(args.testfiles):
-        if ".git" in root or ".github" in root:
+        if ".git" in root or ".github" in root or "sigs" in root:
             continue
 
         for filename in files:
