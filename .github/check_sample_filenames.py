@@ -21,7 +21,7 @@ import argparse
 logger = logging.getLogger("capa.tests.data")
 
 IGNORED_EXTS = (".md", ".git", ".gitattributes", ".gitignore")
-VALID_EXTS = (".exe_", ".dll_", ".sys_", ".raw32", ".raw64")
+VALID_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64")
 
 
 def main(argv=None):
