@@ -27,11 +27,11 @@ jobs:
     - name: Checkout capa without submodules
       uses: actions/checkout@v2
       with:
-        repository: fireeye/capa
+        repository: mandiant/capa
     - name: Checkout capa-rules
       uses: actions/checkout@v2
       with:
-        repository: fireeye/capa-rules
+        repository: mandiant/capa-rules
         path: rules
     - name: Checkout capa-testfiles
       uses: actions/checkout@v2

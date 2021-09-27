@@ -1,5 +1,5 @@
 # Resources for testing capa
-Data to test capa's [code](https://github.com/fireeye/capa) and [rules](https://github.com/fireeye/capa-rules).
+Data to test capa's [code](https://github.com/mandiant/capa) and [rules](https://github.com/mandiant/capa-rules).
 
 ## Naming conventions
 We use the following conventions to organize the capa test data.
