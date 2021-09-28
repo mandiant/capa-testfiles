@@ -15,5 +15,6 @@ We use the following conventions to organize the capa test data.
   - `.exe_`
   - `.dll_`
   - `.sys_`
+  - `.elf_`
   - `.raw32` (32-bit shellcode)
   - `.raw64` (64-bit shellcode)
