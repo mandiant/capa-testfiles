@@ -53,9 +53,9 @@ jobs:
         THRESHOLD=180
         exitcode=0
         cd tests/data
-        mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.added_modified }}')
+        mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.all }}')
         for changed_file in "${added_modified_files[@]}"; do
-          if [[ ! $changed_file =~ ".git" ]]; then
+          if [[ $changed_file =~ .exe_|.dll_|.elf_|.sys_|.raw32|.raw64 ]]; then
             time0=$SECONDS
             capa -q -v "$changed_file"
             diff=$(($SECONDS-time0))
