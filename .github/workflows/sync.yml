@@ -19,7 +19,7 @@ jobs:
         path: tests/data
     - name: Commit changes
       run: |
-        git config user.email 'capa-dev@fireeye.com'
+        git config user.email 'capa-dev@mandiant.com'
         git config user.name 'Capa Bot'
         git commit -am 'Sync capa-testfiles submodule'
     - name: Push changes to capa
