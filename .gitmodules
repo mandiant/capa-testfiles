@@ -1,3 +1,3 @@
 [submodule "dnfile-testfiles"]
-	path = dnfile-testfiles
+	path = dotnet/dnfile-testfiles
 	url = git@github.com:malwarefrank/dnfile-testfiles.git
