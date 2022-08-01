@@ -18,3 +18,11 @@ We use the following conventions to organize the capa test data.
   - `.elf_`
   - `.raw32` (32-bit shellcode)
   - `.raw64` (64-bit shellcode)
+  - `.cs_` (C# source code)
+  - `.aspx_` (ASP.NET source code)
+  - `.py_` (Python source code)
+- Directories
+  - `/`: native test binaries
+  - `/dotnet`: .NET test binaries
+  - `/sigs`: test signatures
+  - `/source`: source language test files e.g. C# and Python
