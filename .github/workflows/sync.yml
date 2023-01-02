@@ -9,12 +9,12 @@ jobs:
     # Do not checkout submodules as we don't need capa-rules and we need to
     # update the tests/data submodule reference
     - name: Checkout capa
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: mandiant/capa
         token: ${{ secrets.CAPA_TOKEN }}
     - name: Checkout capa-testfiles
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: tests/data
     - name: Commit changes
