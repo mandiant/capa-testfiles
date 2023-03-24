@@ -22,6 +22,7 @@ logger = logging.getLogger("capa.tests.data")
 
 IGNORED_EXTS = (".md", ".txt", ".git", ".gitattributes", ".gitignore", ".gitmodules", ".json")
 VALID_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64", ".aspx_", ".cs_", ".py_")
+IGNORED_DIRS = (".git", ".github", "sigs")
 
 
 def main(argv=None):
@@ -43,7 +44,8 @@ def main(argv=None):
 def test_data_filenames(args):
     test_failed = False
     for root, dirs, files in os.walk(args.testfiles):
-        if ".git" in root or ".github" in root or "sigs" in root:
+        # Skip ignored directories
+        if any((ignored_dir in root) for ignored_dir in IGNORED_DIRS):
             continue
 
         for filename in files:
