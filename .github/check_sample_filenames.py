@@ -10,7 +10,6 @@ Unless required by applicable law or agreed to in writing, software distributed 
 See the License for the specific language governing permissions and limitations under the License.
 """
 
-import os
 import sys
 import string
 import hashlib
@@ -82,7 +81,7 @@ def test_data_filenames(args):
 
 def get_file_hashes(path: Path):
     buf = path.read_bytes()
-    
+
     md5 = hashlib.md5()
     md5.update(buf)
 
