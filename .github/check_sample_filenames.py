@@ -10,10 +10,12 @@ Unless required by applicable law or agreed to in writing, software distributed 
 See the License for the specific language governing permissions and limitations under the License.
 """
 
+import os
 import sys
 import string
 import hashlib
 import logging
+import os.path
 import argparse
 from pathlib import Path
 
@@ -42,42 +44,43 @@ def main(argv=None):
 
 def test_data_filenames(args):
     test_failed = False
-    for path in Path(args.testfiles).rglob("*"):
-        if path.is_dir():
-            continue
+    for root, dirs, files in os.walk(args.testfiles):
+        root = Path(root)
         # Skip ignored directories
-        if any((ignored_dir in path.parts) for ignored_dir in IGNORED_DIRS):
+        if any((ignored_dir in root.parts) for ignored_dir in IGNORED_DIRS):
             continue
 
-        if path.name.endswith(IGNORED_EXTS):
-            continue
-
-        if not path.name.endswith(VALID_EXTS):
-            logger.error("invalid file extension: %s", path)
-            test_failed = True
-            continue
-
-        name = path.stem
-        if all(c in string.hexdigits for c in name):
-            try:
-                hashes = get_file_hashes(path)
-            except IOError:
+        for filename in files:
+            if filename.endswith(IGNORED_EXTS):
                 continue
 
-            # MD5 file name
-            if len(name) == 32:
-                if hashes["md5"] != name:
-                    logger.error("invalid file name: %s, MD5 hash: %s", path, hashes["md5"])
-                    test_failed = True
-            # SHA256 file name
-            elif len(name) == 64:
-                if hashes["sha256"] != name:
-                    logger.error("invalid file name: %s, SHA256 hash: %s", path, hashes["sha256"])
-                    test_failed = True
-            else:
-                logger.error("invalid file name: %s, should be MD5 or SHA256 hash", path)
-                test_failed = True
+            path: Path = root / filename
 
+            if not filename.endswith(VALID_EXTS):
+                logger.error("invalid file extension: %s", path)
+                test_failed = True
+                continue
+
+            name = path.stem
+            if all(c in string.hexdigits for c in name):
+                try:
+                    hashes = get_file_hashes(path)
+                except IOError:
+                    continue
+
+                # MD5 file name
+                if len(name) == 32:
+                    if hashes["md5"] != name:
+                        logger.error("invalid file name: %s, MD5 hash: %s", path, hashes["md5"])
+                        test_failed = True
+                # SHA256 file name
+                elif len(name) == 64:
+                    if hashes["sha256"] != name:
+                        logger.error("invalid file name: %s, SHA256 hash: %s", path, hashes["sha256"])
+                        test_failed = True
+                else:
+                    logger.error("invalid file name: %s, should be MD5 or SHA256 hash", path)
+                    test_failed = True
     return test_failed
 
 
