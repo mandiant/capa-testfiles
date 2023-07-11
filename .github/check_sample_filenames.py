@@ -43,6 +43,8 @@ def main(argv=None):
 def test_data_filenames(args):
     test_failed = False
     for path in Path(args.testfiles).rglob("*"):
+        if path.is_dir():
+            continue
         # Skip ignored directories
         if any((ignored_dir in path.parts) for ignored_dir in IGNORED_DIRS):
             continue
