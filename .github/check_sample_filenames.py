@@ -44,7 +44,7 @@ def main(argv=None):
 
 def test_data_filenames(args):
     test_failed = False
-    for root, dirs, files in os.walk(args.testfiles):
+    for root, _, files in os.walk(args.testfiles):
         root = Path(root)
         # Skip ignored directories
         if any((ignored_dir in root.parts) for ignored_dir in IGNORED_DIRS):
