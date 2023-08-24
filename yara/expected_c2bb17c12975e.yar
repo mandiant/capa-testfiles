@@ -2,8 +2,8 @@ rule super_rule_50580
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "50580ef0b882905316c4569162ea07d9"
     strings:

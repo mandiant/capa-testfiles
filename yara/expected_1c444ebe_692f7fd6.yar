@@ -2,8 +2,8 @@ rule super_rule_1c444
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "1c444ebeba24dcba8628b7dfe5fec7c6"
     strings:
@@ -1411,8 +1411,8 @@ rule super_rule_692f7
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "692f7fd6d198e804d6af98eb9e390d61"
     strings:

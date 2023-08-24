@@ -2,8 +2,8 @@ rule super_rule_18ec5
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "18ec5becfa3991fb654e105bafbd5a4b"
     strings:
@@ -280,8 +280,8 @@ rule super_rule_7faaf
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "7faafc7e4a5c736ebfee6abbbc812d80"
     strings:
@@ -4651,8 +4651,8 @@ rule super_rule_b94af
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "b94af4a4d4af6eac81fc135abda1c40c"
     strings:
@@ -6436,8 +6436,8 @@ rule super_rule_7faaf_b94af
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "7faafc7e4a5c736ebfee6abbbc812d80"
         md5 = "b94af4a4d4af6eac81fc135abda1c40c"
@@ -6465,8 +6465,8 @@ rule super_rule_18ec5_7faaf_b94af
 {
     meta:
         author = "CAPA Matches"
-        date_created = "2023-08-10"
-        date_modified = "2023-08-10"
+        date_created = "EXPECTED_DATE"
+        date_modified = "EXPECTED_DATE"
         description = ""
         md5 = "18ec5becfa3991fb654e105bafbd5a4b"
         md5 = "7faafc7e4a5c736ebfee6abbbc812d80"
