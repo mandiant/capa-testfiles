@@ -1,13 +1,12 @@
+# Copyright (C) 2023 Mandiant, Inc. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at: [package root]/LICENSE.txt
+# Unless required by applicable law or agreed to in writing, software distributed under the License
+#  is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and limitations under the License.
 """
 Check testfiles data directory for consistent naming.
-
-Copyright (C) 2020 Mandiant, Inc. All Rights Reserved.
-Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
-You may obtain a copy of the License at: [package root]/LICENSE.txt
-Unless required by applicable law or agreed to in writing, software distributed under the License
- is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and limitations under the License.
 """
 
 import os
@@ -17,11 +16,13 @@ import hashlib
 import logging
 import os.path
 import argparse
+from pathlib import Path
 
 logger = logging.getLogger("capa.tests.data")
 
-IGNORED_EXTS = (".md", ".git", ".gitattributes", ".gitignore", ".gitmodules")
+IGNORED_EXTS = (".md", ".txt", ".git", ".gitattributes", ".gitignore", ".gitmodules", ".json")
 VALID_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64", ".aspx_", ".cs_", ".py_")
+IGNORED_DIRS = (".git", ".github", "sigs")
 
 
 def main(argv=None):
@@ -42,22 +43,24 @@ def main(argv=None):
 
 def test_data_filenames(args):
     test_failed = False
-    for root, dirs, files in os.walk(args.testfiles):
-        if ".git" in root or ".github" in root or "sigs" in root:
+    for root, _, files in os.walk(args.testfiles):
+        root = Path(root)
+        # Skip ignored directories
+        if any((ignored_dir in root.parts) for ignored_dir in IGNORED_DIRS):
             continue
 
         for filename in files:
             if filename.endswith(IGNORED_EXTS):
                 continue
 
-            path = os.path.join(root, filename)
+            path: Path = root / filename
 
             if not filename.endswith(VALID_EXTS):
                 logger.error("invalid file extension: %s", path)
                 test_failed = True
                 continue
 
-            name, ext = os.path.splitext(filename)
+            name = path.stem
             if all(c in string.hexdigits for c in name):
                 try:
                     hashes = get_file_hashes(path)
@@ -77,13 +80,11 @@ def test_data_filenames(args):
                 else:
                     logger.error("invalid file name: %s, should be MD5 or SHA256 hash", path)
                     test_failed = True
-
     return test_failed
 
 
-def get_file_hashes(path):
-    with open(path, "rb") as f:
-        buf = f.read()
+def get_file_hashes(path: Path):
+    buf = path.read_bytes()
 
     md5 = hashlib.md5()
     md5.update(buf)
