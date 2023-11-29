@@ -21,7 +21,7 @@ from pathlib import Path
 logger = logging.getLogger("capa.tests.data")
 
 IGNORED_EXTS = (".md", ".txt", ".git", ".gitattributes", ".gitignore", ".gitmodules", ".json")
-VALID_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64", ".aspx_", ".cs_", ".py_")
+VALID_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64", ".aspx_", ".cs_", ".py_", ".json.gz")
 IGNORED_DIRS = (".git", ".github", "sigs")
 
 
