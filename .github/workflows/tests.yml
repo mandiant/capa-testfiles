@@ -46,7 +46,7 @@ jobs:
     - name: Get modified files
       id: files
       uses: Ana06/get-changed-files@v2.2.0
-      with:
-        format: 'csv'
     - name: Check capa runtime on modified files
-      run: python .github/check_runtimes.py ${{ steps.files.outputs.all }}
+      run: |
+        cd tests/data
+        python .github/check_runtimes.py ${{ steps.files.outputs.all }}

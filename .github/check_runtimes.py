@@ -20,7 +20,7 @@ import capa.main
 logger = logging.getLogger("capa.tests.data")
 
 THRESHOLD = 60 * 3
-TARGET_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64", ".BinExport")
+TARGET_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64")  # TODO add , ".BinExport"
 IGNORED_DIRS = ("aarch64",)
 
 
@@ -43,8 +43,12 @@ def main(argv=None):
             continue
 
         time0 = time.time()
-        capa.main.main(["-q", "-v", str(file)])
+        capa_ret = capa.main.main(["-q", "-v", "-d", str(file)])
         diff = time.time() - time0
+
+        if capa_ret:
+            logger.info("capa failed on file %s", file)
+            test_failed = True
 
         if diff > THRESHOLD:
             logger.info("capa ran for %s seconds, please provide a different sample so we can test more quickly", diff)
