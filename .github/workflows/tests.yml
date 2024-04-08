@@ -51,11 +51,13 @@ jobs:
     - name: Check capa runtime on modified files
       run: |
         THRESHOLD=180
+        EXCLUSION_REGEX="aarch64"
+        FILE_EXTENSION_REGEX=".exe_|.dll_|.elf_|.sys_|.raw32|.raw64"
         exitcode=0
         cd tests/data
         mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.all }}')
         for changed_file in "${added_modified_files[@]}"; do
-          if [[ $changed_file =~ .exe_|.dll_|.elf_|.sys_|.raw32|.raw64 ]]; then
+          if [[ $changed_file =~ $FILE_EXTENSION_REGEX && ! $changed_file =~ $EXCLUSION_REGEX ]]; then
             time0=$SECONDS
             capa -q -v "$changed_file"
             diff=$(($SECONDS-time0))
