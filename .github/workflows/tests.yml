@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
     - name: Checkout testfiles repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
     - name: Set up Python 3.8
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
         python-version: 3.8
     - name: Test repository files
@@ -25,27 +25,27 @@ jobs:
     steps:
     # We check the submodules separately as the rules submodule's reference may not be our PR/master
     - name: Checkout capa without submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         repository: mandiant/capa
     - name: Checkout capa-rules
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         repository: mandiant/capa-rules
         path: rules
     - name: Checkout capa-testfiles
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         path: tests/data
     - name: Set up Python 3.8
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
         python-version: 3.8
     - name: Install capa
       run: pip install -e .
     - name: Get modified files
       id: files
-      uses: Ana06/get-changed-files@v2.2.0
+      uses: Ana06/get-changed-files@v2.3.0
     - name: Check capa runtime on modified files
       run: |
         cd tests/data
