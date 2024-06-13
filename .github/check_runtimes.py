@@ -20,7 +20,7 @@ import capa.main
 logger = logging.getLogger("capa.tests.data")
 
 THRESHOLD = 60 * 3
-TARGET_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64")  # TODO add , ".BinExport"
+TARGET_EXTS = (".exe_", ".dll_", ".elf_", ".sys_", ".raw32", ".raw64")
 IGNORED_DIRS = ("aarch64",)
 
 
