@@ -32,6 +32,7 @@ VALID_EXTS = (
     ".cs_",
     ".py_",
     ".json.gz",
+    ".log.gz",
     ".BinExport",
 )
 IGNORED_DIRS = (".git", ".github", "sigs")
