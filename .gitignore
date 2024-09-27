@@ -3,6 +3,7 @@
 *.i64
 *.json
 *.txt
+# IDA Pro intermediate database files
 *.nam
 *.id0
 *.id1
