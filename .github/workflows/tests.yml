@@ -13,10 +13,10 @@ jobs:
     steps:
     - name: Checkout testfiles repository
       uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
-    - name: Set up Python 3.8
+    - name: Set up Python 3.10
       uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
-        python-version: 3.8
+        python-version: '3.10'
     - name: Test repository files
       run: python .github/check_sample_filenames.py .
   # to allow quicker tests, capa should run less than THRESHOLD seconds on added/modified test files
@@ -37,10 +37,10 @@ jobs:
       uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         path: tests/data
-    - name: Set up Python 3.8
+    - name: Set up Python 3.10
       uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
-        python-version: 3.8
+        python-version: '3.10'
     - name: Install capa
       run: pip install -e .
     - name: Get modified files
