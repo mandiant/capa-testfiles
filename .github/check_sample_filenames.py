@@ -35,6 +35,7 @@ VALID_EXTS = (
     ".log.gz",
     ".BinExport",
     ".zip",
+    ".bndb",
 )
 IGNORED_DIRS = (".git", ".github", "sigs")
 
