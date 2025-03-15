@@ -22,7 +22,8 @@ We use the following conventions to organize the capa test data.
   - `.aspx_` (ASP.NET source code)
   - `.py_` (Python source code)
 - Directories
-  - `/`: native test binaries
+  - `/native`: native test binaries
   - `/dotnet`: .NET test binaries
+  - `/pma`: PMA test binaries
   - `/sigs`: test signatures
   - `/source`: source language test files e.g. C# and Python
