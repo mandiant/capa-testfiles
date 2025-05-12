@@ -4,7 +4,7 @@ on:
     branches: [ master ]
 jobs:
   sync_submodule_capa:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     # Do not checkout submodules as we don't need capa-rules and we need to
     # update the tests/data submodule reference
