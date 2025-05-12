@@ -9,7 +9,7 @@ on:
 jobs:
   # file name consistency
   test_filenames:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout testfiles repository
       uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
@@ -21,7 +21,7 @@ jobs:
       run: python .github/check_sample_filenames.py .
   # to allow quicker tests, capa should run less than THRESHOLD seconds on added/modified test files
   test_runtime:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     # We check the submodules separately as the rules submodule's reference may not be our PR/master
     - name: Checkout capa without submodules
