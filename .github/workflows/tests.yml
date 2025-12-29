@@ -9,62 +9,44 @@ on:
 jobs:
   # file name consistency
   test_filenames:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout testfiles repository
-      uses: actions/checkout@v3
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v4
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
+    - name: Set up Python 3.10
+      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
-        python-version: 3.8
+        python-version: '3.10'
     - name: Test repository files
       run: python .github/check_sample_filenames.py .
   # to allow quicker tests, capa should run less than THRESHOLD seconds on added/modified test files
   test_runtime:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     # We check the submodules separately as the rules submodule's reference may not be our PR/master
     - name: Checkout capa without submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         repository: mandiant/capa
     - name: Checkout capa-rules
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         repository: mandiant/capa-rules
         path: rules
     - name: Checkout capa-testfiles
-      uses: actions/checkout@v3
+      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
       with:
         path: tests/data
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
       with:
-        python-version: 3.8
+        python-version: '3.10'
     - name: Install capa
       run: pip install -e .
     - name: Get modified files
       id: files
-      uses: Ana06/get-changed-files@v2.2.0
-      with:
-        format: 'csv'
+      uses: Ana06/get-changed-files@v2.3.0
     - name: Check capa runtime on modified files
       run: |
-        THRESHOLD=180
-        exitcode=0
         cd tests/data
-        mapfile -d ',' -t added_modified_files < <(printf '%s,' '${{ steps.files.outputs.all }}')
-        for changed_file in "${added_modified_files[@]}"; do
-          if [[ $changed_file =~ .exe_|.dll_|.elf_|.sys_|.raw32|.raw64 ]]; then
-            time0=$SECONDS
-            capa -q -v "$changed_file"
-            diff=$(($SECONDS-time0))
-            if [[ $diff -gt $THRESHOLD ]]; then
-              echo "capa ran for $diff seconds, please provide a different sample so we can test more quickly"
-              exitcode=1
-            else
-              echo "all good, capa ran for $diff seconds"
-            fi
-          fi
-        done
-        exit $exitcode
+        python .github/check_runtimes.py ${{ steps.files.outputs.all }}
