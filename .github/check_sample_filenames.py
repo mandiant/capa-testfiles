@@ -43,7 +43,7 @@ VALID_EXTS = (
     ".zip",
     ".bndb",
 )
-IGNORED_DIRS = (".git", ".github", "sigs")
+IGNORED_DIRS = (".git", ".github", "sigs", "fixtures")
 
 
 def main(argv=None):
