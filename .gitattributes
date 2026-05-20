@@ -1,2 +1,0 @@
-*.viv filter=lfs diff=lfs merge=lfs -text
-*.fnames filter=lfs diff=lfs merge=lfs -text
