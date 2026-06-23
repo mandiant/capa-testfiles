@@ -7,28 +7,28 @@
             "sample": "Practical Malware Analysis Lab 01-01.dll_",
             "freeze": "pma01-01-dll.frz",
             "explanation": "Smallest PE 32-bit DLL in the corpus. Fast baseline for the PE DLL path through the viv backend (exports, imports, small function count).",
-            "generated_at_commit": "cd07bd230e831cb216450aec98859ae1dc6b16ff"
+            "generated_at_commit": "ed60bb6040c96f077a2a191bd8834ddf58a6de61"
         },
         {
             "name": "mimikatz-exe",
             "sample": "mimikatz.exe_",
             "freeze": "mimikatz-exe.frz",
             "explanation": "Well-known PE 32-bit EXE with a wide variety of features. Exercises the PE EXE path through viv against a realistic, feature-dense sample.",
-            "generated_at_commit": "cd07bd230e831cb216450aec98859ae1dc6b16ff"
+            "generated_at_commit": "ed60bb6040c96f077a2a191bd8834ddf58a6de61"
         },
         {
             "name": "pma21-01-exe",
             "sample": "Practical Malware Analysis Lab 21-01.exe_",
             "freeze": "pma21-01-exe.frz",
             "explanation": "PE 64-bit EXE. Covers amd64 disassembly distinct from the 32-bit PE fixtures above.",
-            "generated_at_commit": "cd07bd230e831cb216450aec98859ae1dc6b16ff"
+            "generated_at_commit": "ed60bb6040c96f077a2a191bd8834ddf58a6de61"
         },
         {
             "name": "7351f-elf",
             "sample": "7351f8a40c5450557b24622417fc478d.elf_",
             "freeze": "7351f-elf.frz",
             "explanation": "ELF binary via the viv backend. Exercises the ELF loader plus OS/arch detection for non-PE samples.",
-            "generated_at_commit": "cd07bd230e831cb216450aec98859ae1dc6b16ff"
+            "generated_at_commit": "ed60bb6040c96f077a2a191bd8834ddf58a6de61"
         },
         {
             "name": "1c444-dotnet",
