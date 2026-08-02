@@ -1,4 +1,3 @@
-C0755 4745 7efruhWQ
 #!/bin/bash
 
 MYSELF=`realpath $0`
