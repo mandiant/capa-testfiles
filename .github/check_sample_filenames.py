@@ -35,6 +35,7 @@ VALID_EXTS = (
     ".raw32",
     ".raw64",
     ".aspx_",
+    ".sh_",
     ".cs_",
     ".py_",
     ".json.gz",
