@@ -1,4 +1,4 @@
-#!/bin/bash
+##!/bin/bash
 
 MYSELF=`realpath $0`
 DEBUG=/dev/null
