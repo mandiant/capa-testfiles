@@ -26,3 +26,14 @@ We use the following conventions to organize the capa test data.
   - `/dotnet`: .NET test binaries
   - `/sigs`: test signatures
   - `/source`: source language test files e.g. C# and Python
+
+## Adding bash script samples
+
+Bash files should be zipped before being added to the test files repository to prevent accidental execution. The resulting ZIP archive should be renamed using its SHA-256 hash.
+
+For example:  
+```
+    zip sample.zip sample.sh_  
+    sha256sum sample.zip  
+    mv sample.zip <sha256>.zip  
+```
