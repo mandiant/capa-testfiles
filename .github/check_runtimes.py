@@ -22,6 +22,7 @@ import argparse
 from pathlib import Path
 
 import capa.main
+from capa.main import E_FILE_LIMITATION
 
 logger = logging.getLogger("capa.tests.data")
 
@@ -49,18 +50,21 @@ def main(argv=None):
             continue
 
         time0 = time.time()
-        capa_ret = capa.main.main(["-q", "-v", "-d", str(file)])
-        diff = time.time() - time0
+        try:
+            capa_ret = capa.main.main(["-q", "-v", "-d", str(file)])
+            diff = time.time() - time0
 
-        if capa_ret:
-            logger.info("capa failed on file %s", file)
+            if capa_ret not in (0, E_FILE_LIMITATION):
+                logger.error("capa failed on file %s with return code %s", file, capa_ret)
+                test_failed = True
+            elif diff > THRESHOLD:
+                logger.error("capa ran for %s seconds on %s, please provide a different sample so we can test more quickly", diff, file)
+                test_failed = True
+            else:
+                logger.info("all good, capa ran for %.2f seconds on %s", diff, file)
+        except Exception as e:
+            logger.error("capa encountered an exception on file %s: %s", file, e, exc_info=True)
             test_failed = True
-
-        if diff > THRESHOLD:
-            logger.info("capa ran for %s seconds, please provide a different sample so we can test more quickly", diff)
-            test_failed = True
-        else:
-            logger.info("all good, capa ran for %s seconds", diff)
 
     if test_failed:
         return 1
