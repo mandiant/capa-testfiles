@@ -6,15 +6,18 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  contents: read
+
 jobs:
   # file name consistency
   test_filenames:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout testfiles repository
-      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Set up Python 3.10
-      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.10'
     - name: Test repository files
@@ -24,9 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout testfiles repository
-      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Set up Python 3.10
-      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.10'
     - name: Test repository file permissions
@@ -37,28 +40,30 @@ jobs:
     steps:
     # We check the submodules separately as the rules submodule's reference may not be our PR/master
     - name: Checkout capa without submodules
-      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         repository: mandiant/capa
     - name: Checkout capa-rules
-      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         repository: mandiant/capa-rules
         path: rules
     - name: Checkout capa-testfiles
-      uses: actions/checkout@b80ff79f1755d06ba70441c368a6fe801f5f3a62 # v4.1.6
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         path: tests/data
     - name: Set up Python 3.10
-      uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.10'
     - name: Install capa
       run: pip install -e .
     - name: Get modified files
       id: files
-      uses: Ana06/get-changed-files@v2.3.0
+      uses: Ana06/get-changed-files@25f79e676e7ea1868813e21465014798211fad8c # v2.3.0
     - name: Check capa runtime on modified files
+      env:
+        CHANGED_FILES: ${{ steps.files.outputs.all }}
       run: |
         cd tests/data
-        python .github/check_runtimes.py ${{ steps.files.outputs.all }}
+        python .github/check_runtimes.py $CHANGED_FILES
