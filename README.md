@@ -26,3 +26,7 @@ We use the following conventions to organize the capa test data.
   - `/dotnet`: .NET test binaries
   - `/sigs`: test signatures
   - `/source`: source language test files e.g. C# and Python
+
+## File permissions
+All files in this repository must be tracked in Git with non-executable permissions (`100644`).
+Do not set the executable bit (`+x` / `100755`) on any test files or test scripts.
