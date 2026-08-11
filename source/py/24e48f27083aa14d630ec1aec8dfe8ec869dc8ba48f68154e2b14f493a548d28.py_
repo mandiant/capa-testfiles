@@ -1,0 +1,21 @@
+import base64
+import socket
+import subprocess
+from threading import Timer
+import urllib2
+
+GLOBAL_BANNER = "[I] "
+GLOBAL_ALERT = "[!]"
+
+
+def icloud_phish():
+    subprocess.Popen(["/bin/true"])
+    urllib2.Request("http://example.com")
+    base64.encodestring("payload")
+    urllib2.urlopen("http://example.com")
+    Timer(1, lambda: None)
+
+
+def get_itunes_backups():
+    note = "IMEI"
+    return note, 0, 1, socket.socket()
