@@ -1,0 +1,5 @@
+# Ensure script test fixtures always retain LF line endings on all OSes
+*.aspx_ text eol=lf
+*.cs_ text eol=lf
+*.py_ text eol=lf
+*.html_ text eol=lf
