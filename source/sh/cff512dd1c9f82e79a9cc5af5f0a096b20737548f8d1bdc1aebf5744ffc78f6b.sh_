@@ -1,5 +1,6 @@
 ##!/bin/bash
-
+echo "FATAL: This file is a static analysis fixture and must never be executed!" >&2
+return 1 2>/dev/null || exit 1
 MYSELF=`realpath $0`
 DEBUG=/dev/null
 echo $MYSELF >> $DEBUG
