@@ -3,3 +3,4 @@
 *.cs_ text eol=lf
 *.py_ text eol=lf
 *.html_ text eol=lf
+*.sh_ text eol=lf
